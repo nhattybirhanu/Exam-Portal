@@ -16,7 +16,7 @@ export class SignUpComponent implements OnInit ,OnDestroy{
 
 	this.signupForm=formBuilder.group({
 		'fullname':['',[Validators.required]],
-		'username': ['', Validators.compose([Validators.required, this.usernameValidator.bind(this)])],
+		'username': ['', Validators.compose([Validators.required])],
 		'email': ['', [
 			Validators.required,
 			Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
@@ -26,23 +26,16 @@ export class SignUpComponent implements OnInit ,OnDestroy{
 		});
 
 		this.subscription=this.signupForm.valueChanges.subscribe(data=>{
-		//	console.log(data)
 			this.signuping=false;
 		})
+		this.signupForm.get('username')?.setAsyncValidators([this.isValiduserNameNotInList()])
+		this.signupForm.get('email')?.setAsyncValidators([this.isValiduserNameNotInList()])
 
+		console.log(
 
-   }
-   usernameValidator(control: FormControl): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors> => {
-        let bReturn: boolean = true;
-        if (this.signupForm.controls['username'].value == 'test@test.test')
-        {
-            bReturn = false;
-        }
-        let err: ValidationErrors = { 'exists': true };
-        return bReturn ? of(null) : of(err);
-    };
-}
+		)
+	}
+  
    onSubmit(){
 this.signuping=true;
 
@@ -53,5 +46,16 @@ this.signuping=true;
 
 	  ngOnDestroy(): void {
 		this.subscription?.unsubscribe()
+	  }
+	  isValiduserNameNotInList(): AsyncValidatorFn {
+		return (control: AbstractControl): Observable<ValidationErrors|null> => {
+			let bReturn: boolean = true;
+			if (this.signupForm.controls['username'].value == 'test@test.test')
+			{
+				bReturn = false;
+			}
+			let err: ValidationErrors = { 'exists': true };
+			return bReturn ? of(null) : of(err);
+		};
 	  }
 }
