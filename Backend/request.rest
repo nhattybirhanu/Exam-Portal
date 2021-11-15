@@ -1,30 +1,42 @@
-GET http://localhost:3000/users/list
+GET http://localhost:3000/api/proffesior
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzY5ODE5NjgsImV4cCI6MTYzNjk4MjU2OH0.CusD9u2lcg2g0ckyjomoPOJKKFZ5TwnOXYpSGprgwwg
 ###
-POST http://localhost:3000/users/signup
+POST http://localhost:3000/api/users/signup
 Content-Type: application/json
 
 {
    "name": "Nhatty Birhanu",
    "email": "najema@miu.edu",
    "password": "1234",
-   "position": "student"
+   "role": "student"
 }
 ###
-POST http://localhost:3000/users/signup
+POST http://localhost:3000/api/users/signup
 Content-Type: application/json
 
 {
    "name": "Asaad Saad",
    "email": "asaad@miu.edu",
    "password": "9999",
-   "position": "professor"
+   "role": "professor"
 }
 
 ###
-POST http://localhost:3000/users/login
+POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-    "username" : "Jose",
-    "password" : "1234"
+    "email" : "asaad@miu.edu",
+    "password" : "9999"
 }
+
+###
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+    "email": "najema@miu.edu",
+   "password": "1234"
+}
+###
+GET http://localhost:3000/api/users/availability/email/najema@miu.edu

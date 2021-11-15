@@ -24,6 +24,7 @@ import { AuthGuard } from './guards/AuthGuard';
 import { NavBar } from './Navbar.component';
 import { AppProffesiorComponent } from './app-proffesior/app-proffesior.component';
 import {MatSelectModule} from '@angular/material/select';
+import { LogoutComponent } from './logout/logout.component';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import {MatSelectModule} from '@angular/material/select';
     AppComponent,
     LoginComponent,
     SignUpComponent
-		,NavBar
+		,NavBar, LogoutComponent
 
 ],
   imports: [

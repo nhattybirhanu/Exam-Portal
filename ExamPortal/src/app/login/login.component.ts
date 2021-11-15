@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-login',
@@ -12,14 +14,14 @@ export class LoginComponent implements OnInit,OnDestroy {
 	myForm: FormGroup;
 	private subscription: Subscription | undefined;
 	signing:boolean=false;
-  constructor(private formBuilder: FormBuilder,private authservice:AuthService) { 
+  constructor(private formBuilder: FormBuilder,private authservice:AuthService,private router:Router) { 
 	this.myForm = formBuilder.group({
 		
-		'email': ['', [
+		'email': ['najema@miu.edu', [
 		  Validators.required,
 		  Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 		]],
-		'password': ['', Validators.required],
+		'password': ['1234', Validators.required],
 		
 	  });
   
@@ -39,6 +41,9 @@ export class LoginComponent implements OnInit,OnDestroy {
 	  this.authservice.login(this.myForm.get('email')?.value,this.myForm.get('password')?.value).subscribe(
 		response =>{
 			this.signing=false;
+			const user:User=response.data;
+			this.authservice.setUser(user)
+			this.router.navigate(['proffesior']);
 			console.log(response)
 	},
 	error => 

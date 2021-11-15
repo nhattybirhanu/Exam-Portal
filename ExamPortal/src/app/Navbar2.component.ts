@@ -1,5 +1,7 @@
 import { style } from "@angular/animations";
 import { Component, EventEmitter, Output } from "@angular/core";
+import { AuthService } from "./auth.service";
+import { User } from "./model/User";
 
 @Component({
 	selector: 'app-nav2',
@@ -21,15 +23,25 @@ import { Component, EventEmitter, Output } from "@angular/core";
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
 >
-  <ul class="example-list">
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-  </ul>
+<mat-card  class="nav-profile" >
+
+
+<mat-card-title>	 {{user.name}}
+</mat-card-title>
+<mat-card-subtitle>	 {{user.email}}
+</mat-card-subtitle>
+<mat-card-actions >
+	<a mat-stroked-button [routerLink]="['/logout']" >Logout</a>
+	
+</mat-card-actions>
+
+</mat-card>
+
+
 </ng-template>
 
 	  <button mat-flat-button color="primary" (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
-	  Nhatty Birhanu 
+	 {{user.name}}
 	  <mat-icon class="nav-icon" aria-hidden="false" aria-label="Example user verified icon">account_circle</mat-icon>
 
 	  </button>
@@ -42,11 +54,14 @@ import { Component, EventEmitter, Output } from "@angular/core";
   },
   )
 export class NavBar2{
+	user:User;
 	@Output() shomMenuEvent:EventEmitter<boolean>=new EventEmitter();
 
 	showMenu:boolean=false;
 	isOpen:boolean=false;
-
+	constructor(private authService:AuthService){
+		this.user=authService.user;
+	}
 	showMenuAction(){
 	this.showMenu=!this.showMenu;
 	this.shomMenuEvent.emit(this.showMenu)

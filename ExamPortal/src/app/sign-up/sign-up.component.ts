@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Observable, of, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { debounce, map, Observable, of, Subscription } from 'rxjs';
+import { AuthService } from '../auth.service';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,9 +13,9 @@ import { Observable, of, Subscription } from 'rxjs';
 export class SignUpComponent implements OnInit ,OnDestroy{
 	signuping:boolean=false;
 	signupForm:FormGroup;
-	subscription:Subscription;
+	subscription:Subscription|undefined;
 	validusername:unknown=null
-  constructor(private formBuilder:FormBuilder) {
+  constructor(private formBuilder:FormBuilder,private authService:AuthService,private router:Router) {
 
 	this.signupForm=formBuilder.group({
 		'fullname':['',[Validators.required]],
@@ -22,22 +25,39 @@ export class SignUpComponent implements OnInit ,OnDestroy{
 			Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 		  ]],
 		  'password': ['', Validators.required],
-		  
-		});
+		'role': ['', Validators.compose([Validators.required])],
+	  
+		},
+		);
 
-		this.subscription=this.signupForm.valueChanges.subscribe(data=>{
+		this.subscription=this.signupForm?.get('username')?.statusChanges.subscribe(data=>{
 			this.signuping=false;
+			this.validusername=false
+			if(data=='VALID')
+			this.validusername=true
+
+			console.log(data)
 		})
-		this.signupForm.get('username')?.setAsyncValidators([this.isValiduserNameNotInList()])
-		this.signupForm.get('email')?.setAsyncValidators([this.isValiduserNameNotInList()])
-
-		console.log(
-
-		)
+		this.signupForm.get('username')?.setAsyncValidators([this.isValiduserNameNotInList('username')])
+		this.signupForm.get('email')?.setAsyncValidators([this.isValiduserNameNotInList('email')])
 	}
   
    onSubmit(){
 this.signuping=true;
+console.log(this.signupForm.value)
+this.authService.signUp(this.signupForm.value).subscribe(
+	response =>{
+		this.signuping=false;
+		const user:User=response.data;
+		this.authService.setUser(user)
+		this.router.navigate(['proffesior']);
+		console.log(response);
+		},
+		error => 
+		{
+	this.signuping=false;
+	console.error(error);
+	})
 
    }
 
@@ -47,15 +67,16 @@ this.signuping=true;
 	  ngOnDestroy(): void {
 		this.subscription?.unsubscribe()
 	  }
-	  isValiduserNameNotInList(): AsyncValidatorFn {
-		return (control: AbstractControl): Observable<ValidationErrors|null> => {
-			let bReturn: boolean = true;
-			if (this.signupForm.controls['username'].value == 'test@test.test')
-			{
-				bReturn = false;
-			}
-			let err: ValidationErrors = { 'exists': true };
-			return bReturn ? of(null) : of(err);
+	  isValiduserNameNotInList(field:string): AsyncValidatorFn {
+		let err: ValidationErrors = { 'exists': true };
+		return (control: AbstractControl): Observable<ValidationErrors|null>=> {
+			return this.authService.checkavailability(field,this.signupForm.controls[field].value).pipe(
+			map((res:any)=>{
+
+				console.log( res ? null : {'exit':true},control)
+				return res ? null : {'exit':true}
+			})	)
+		
 		};
 	  }
 }
