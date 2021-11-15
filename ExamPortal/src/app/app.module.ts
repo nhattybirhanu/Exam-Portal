@@ -18,20 +18,28 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 import {MatButtonModule} from '@angular/material/button';
 import { SignUpComponent } from './sign-up/sign-up.component'
+import { HttpClientModule } from '@angular/common/http';
+import { AppStudentComponent } from './app-student/app-student.component';
+import { AuthGuard } from './guards/AuthGuard';
+import { NavBar } from './Navbar.component';
+import { AppProffesiorComponent } from './app-proffesior/app-proffesior.component';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SignUpComponent,
-  ],
+    SignUpComponent
+		,NavBar
+
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
 	ReactiveFormsModule,
-	
+	HttpClientModule,
 	MatToolbarModule,
 	MatIconModule,
 	MatCardModule,
@@ -39,10 +47,11 @@ import { SignUpComponent } from './sign-up/sign-up.component'
 	MatInputModule,
 	MatProgressBarModule,
 	MatProgressSpinnerModule,
-	MatButtonModule
+	MatButtonModule,
+	MatSelectModule
 
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

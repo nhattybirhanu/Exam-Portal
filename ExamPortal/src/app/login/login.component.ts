@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 	myForm: FormGroup;
 	private subscription: Subscription | undefined;
 	signing:boolean=false;
-  constructor(private formBuilder: FormBuilder) { 
+  constructor(private formBuilder: FormBuilder,private authservice:AuthService) { 
 	this.myForm = formBuilder.group({
 		
 		'email': ['', [
@@ -35,6 +36,19 @@ export class LoginComponent implements OnInit,OnDestroy {
   onSubmit(){
 	  console.log(this.myForm.value)
 	  this.signing=true;
+	  this.authservice.login(this.myForm.get('email')?.value,this.myForm.get('password')?.value).subscribe(
+		response =>{
+			this.signing=false;
+			console.log(response)
+	},
+	error => 
+	{
+		this.signing=false;
+		console.error(error)
+
+	}
+
+	  )
   }
 
   ngOnInit(): void {

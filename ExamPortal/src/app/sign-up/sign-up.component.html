@@ -1,3 +1,5 @@
+<app-nav1></app-nav1>
+
 <mat-card class="logincard" [ngClass]="{'form-disabled': signuping}">
 		<mat-card-title>Sign Up</mat-card-title>
 			<form class="loginform" [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off" >
@@ -20,24 +22,23 @@
 						<mat-label>Username</mat-label>
 						<input matInput type="text" class="form-control" autocomplete="off"  formControlName="username" 	 > 
 						<mat-icon *ngIf="validusername!=null" matSuffix> {{"valideusername?'done':''"}} <mat-spinner  diameter=20></mat-spinner>	<div></div></mat-icon>
-						
-				
-						
-	
-			</mat-form-field>
-
-
-				 
+					</mat-form-field> 
 				</p>
-				<p>
+				<mat-form-field  class="matinput" appearance="outline">
+					<mat-label>Role</mat-label>
+					<mat-select>
+					  <mat-option value="student">Student</mat-option>
+					  <mat-option value="proffesior">Proffesior</mat-option>
 
-				  <mat-form-field class="matinput" appearance="outline">
+					</mat-select>
+				
+				  </mat-form-field>
+				<p>
+	  <mat-form-field class="matinput" appearance="outline">
 					<mat-label>Password</mat-label>
 					<input matInput  class="form-control" type="password" formControlName="password"  id="password">
 				  </mat-form-field>
 				  <button mat-raised-button color="primary" [disabled]="!signupForm.valid">Create account</button>
-				
-		  
 			  </p>
 			  	<p>
 

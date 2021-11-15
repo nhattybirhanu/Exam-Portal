@@ -4,8 +4,8 @@ POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-   "name": "Jose Garcia",
-   "email": "jbellorin@miu.edu",
+   "name": "Nhatty Birhanu",
+   "email": "najema@miu.edu",
    "password": "1234",
    "position": "student"
 }

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const Users=require('../models/Users');
 const User = require('../models/Users');
 
 // List all users info
@@ -36,13 +37,14 @@ module.exports.userSignup = async (req, res) => {
 
 // User Login
 module.exports.userLogin = async (req, res) => {
-   const user = users.find(user => (user.username = req.body.username));
+	const {email,password}=req.body;
+   const user = await Users.findOne({'email':email});
    if (user == null) return res.status(400).send(`User not found`);
    try {
       if (await bcrypt.compare(req.body.password, user.password)) {
-         res.send('Success');
+         res.json({'error':null,data:user});
       } else {
-         res.send('Not allowed');
+         res.json({'error':"Wrong password",data:null});
       }
    } catch (error) {
       res.status(500).send();

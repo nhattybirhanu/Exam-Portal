@@ -51,3 +51,24 @@ body {
 .myicon {
 	font-size: xx-large;
   }
+  .nav-icon {
+	padding: 0 14px;
+  }
+  .nav-spacer {
+	flex: 1 1 auto;
+  }
+  .spacer {
+	flex: 1 1 auto;
+  }
+  .searchHeader{
+	width: 90%;
+	margin: auto;
+	margin-top: 2%;
+	padding: 1%;
+	text-align: center;
+	height: fit-content;
+}
+.searchinput{
+	width: 30%;
+}
+  
