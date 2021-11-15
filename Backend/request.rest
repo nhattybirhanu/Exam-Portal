@@ -1,35 +1,50 @@
-GET http://localhost:3000/users/list
+GET http://localhost:3000/api/proffesior
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzY5OTY1NjYsImV4cCI6MTYzNjk5NzE2Nn0.VmpejPGOQ6pGD0Seu2hzl97eRIXhoM9UI4ULEWzcpjc
 ###
-POST http://localhost:3000/users/signup
+POST http://localhost:3000/api/users/signup
 Content-Type: application/json
 
 {
-<<<<<<< HEAD
-   "name": "Jose Garcia",
-   "email": "jbellorinni@miu.edu",
-=======
    "name": "Nhatty Birhanu",
    "email": "najema@miu.edu",
->>>>>>> f14ad90faadadcdc80995a94c46d5b6f546ca9ee
    "password": "1234",
-   "position": "student"
+   "role": "student"
 }
 ###
-POST http://localhost:3000/users/signup
+POST http://localhost:3000/api/users/signup
 Content-Type: application/json
 
 {
    "name": "Asaad Saad",
    "email": "asaad@miu.edu",
    "password": "9999",
-   "position": "professor"
+   "role": "professor"
 }
 
 ###
-POST http://localhost:3000/users/login
+POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-    "email" : "jbellorin@miu.edu",
-    "password" : "1234"
+    "email" : "asaad@miu.edu",
+    "password" : "9999"
+}
+
+###
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+    "email": "najema@miu.edu",
+   "password": "1234"
+}
+###
+GET http://localhost:3000/api/users/availability/email/najema@miu.edu
+
+###
+DELETE http://localhost:3000/api/users/delete
+Content-Type: application/json
+
+{
+   "id" : "61929436e407b70e92ca7949"
 }

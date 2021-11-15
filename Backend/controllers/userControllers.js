@@ -1,99 +1,97 @@
 const bcrypt = require('bcrypt');
-<<<<<<< HEAD
-const jwt = require('jsonwebtoken');
-=======
-const Users=require('../models/Users');
->>>>>>> f14ad90faadadcdc80995a94c46d5b6f546ca9ee
+const Users = require('../models/Users');
 const User = require('../models/Users');
-const Exam = require('../models/Users');
-require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+const config = process.env;
 
+const tokenKey = config.TOKEN_KEY;
 // List all users info
-module.exports.listAllUsers = async (req, res) => {
+async function listAllUsers(req, res) {
    const users = await User.find();
    res.json({ success: 1, payload: users });
-};
+}
 
 // List user by name
-module.exports.getUser = async (req, res) => {
-   let email = req.params.email;
-   const user = await User.find({ email: email });
-   // .find( {"name_lower": { $regex: new RegExp("^" + thename.toLowerCase(), "i") } });
+async function getUser(req, res) {
+   const { name } = req.params;
+   const user = await User.find({ name: name });
    res.json({ success: 1, payload: user });
-};
+}
 
 // Create new user
-module.exports.userSignup = async (req, res) => {
-   const { name, email, password, position } = req.body;
+async function userSignup(req, res) {
+   const { fullname, username, email, password, role } = req.body;
+   console.log(req.body);
    try {
       const hashedPassword = await bcrypt.hash(password, 10); //salt = 10
       const user = new User({
-         name: name,
+         // _id: ObjectId(email), // Mongoose autogenerates _id
+         fullname: fullname,
+         username: username,
          email: email,
          password: hashedPassword,
-         position: position,
+         role: role,
       });
       await user.save();
       //   users.push(user); //replace with database addUser
-      res.status(201).send();
+      let token = generateToken(user.username);
+      user.password = null;
+      user.token = token;
+      res.status(201).json({ error: null, data: user });
    } catch (error) {
       res.status(500).send();
    }
-};
-
-// User Login
-module.exports.userLogin = async (req, res) => {
-<<<<<<< HEAD
-   const { email, password } = req.body;
-   let userAuthenticated = false;
-   const user = await User.findOne({ email: email }); //{ email: req.params.email });
-   // console.log(user); //delete line
-   if (user == null) return res.status(404).send('User not found');
-   else {
-      userAuthenticated = true;
-   }
-   try {
-      // User is authenticated
-      if (await bcrypt.compare(password, user.password)) {
-         const accessToken = jwt.sign(
-            { username: user.email },
-            process.env.PRIVATE_KEY
-         );
-         console.log(accessToken);
-         res.status(200).send({ token: accessToken });
-=======
-	const {email,password}=req.body;
-   const user = await Users.findOne({'email':email});
-   if (user == null) return res.status(400).send(`User not found`);
-   try {
-      if (await bcrypt.compare(req.body.password, user.password)) {
-         res.json({'error':null,data:user});
-      } else {
-         res.json({'error':"Wrong password",data:null});
->>>>>>> f14ad90faadadcdc80995a94c46d5b6f546ca9ee
-      }
-   } catch (err) {
-      res.status(500).send('bcrypt.compare() error');
-   }
-};
-
-module.exports.postExam = async (req, res) => {
-   const exam = req.body;
-   res.send(exam);
-};
-
-function authenticateToken(req, res, next) {
-   const authHearder = req.headers['authorization'];
-   const token = authHearder && authHearder.split(' ')[1];
-   if (token == null) {
-      return res.sendStatus(401);
-   }
-
-   jwt.verify(token, process.env.PRIVATE_KEY, (err, user) => {
-      if (err) return res.SendStatus(403);
-      req.user = user;
-      next();
-   });
 }
 
-//
+// User Login
+async function userLogin(req, res) {
+   const { email, password } = req.body;
+   const user = await Users.findOne({ email: email });
+   if (user == null) return res.status(400).send(`User not found`);
+   try {
+      if (await bcrypt.compare(password, user.password)) {
+         let token = generateToken(user.username);
+         user.password = null;
+         user.token = token;
+         console.log(token);
+         return res.json({ error: null, data: user });
+      } else {
+         return res.json({ error: 'Wrong password', data: null });
+      }
+   } catch (error) {
+      console.log(error);
+      return res.status(500).send();
+   }
+}
+
+function generateToken(username) {
+   const token = jwt.sign({ username }, tokenKey, {
+      expiresIn: '10m',
+   });
+   return token;
+}
+
+//getUser, userSignup, userLogin, deleteUserById
+async function checkFiledAvailale(req, res) {
+   console.log('params ', req.params);
+   const { filed, value } = req.params;
+   const user = await Users.findOne(
+      filed === 'username' ? { username: value } : { email: value }
+   ).select(['username']);
+   return res.send(user === null);
+}
+
+async function deleteUserById(req, res) {
+   console.log(req.body.id);
+   await Users.findByIdAndDelete({ _id: req.body.id });
+}
+module.exports = {
+   userLogin,
+   userSignup,
+   listAllUsers,
+   getUser,
+   checkFiledAvailale,
+   deleteUserById,
+};

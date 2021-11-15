@@ -1,29 +1,24 @@
 {
-   "name": "exam-portal",
+   "name": "examsportal",
    "version": "1.0.0",
-   "description": "Backend for exam portal",
+   "description": "Exam app for students and professors",
    "main": "app.js",
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "devStart": "nodemon app.js"
+      "start": "nodemon app.js"
    },
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/nhattybirhanu/Exam-Portal.git"
-   },
-   "author": "Jose Garcia Bellorin",
+   "author": "Jose Garcia",
    "license": "ISC",
-   "bugs": {
-      "url": "https://github.com/nhattybirhanu/Exam-Portal/issues"
-   },
-   "homepage": "https://github.com/nhattybirhanu/Exam-Portal#readme",
    "dependencies": {
       "bcrypt": "^5.0.1",
       "cors": "^2.8.5",
       "dotenv": "^10.0.0",
       "express": "^4.17.1",
       "jsonwebtoken": "^8.5.1",
-      "mongoose": "^6.0.12",
+      "mongodb": "^4.1.4",
+      "mongoose": "^6.0.12"
+   },
+   "devDependencies": {
       "nodemon": "^2.0.15"
    }
 }
