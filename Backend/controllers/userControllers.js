@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/Users');
+const Exam = require('../models/Users');
+require('dotenv').config();
 
 // List all users info
 module.exports.listAllUsers = async (req, res) => {
@@ -9,8 +12,9 @@ module.exports.listAllUsers = async (req, res) => {
 
 // List user by name
 module.exports.getUser = async (req, res) => {
-   const { name } = req.params;
-   const user = await User.find({ name: name });
+   let email = req.params.email;
+   const user = await User.find({ email: email });
+   // .find( {"name_lower": { $regex: new RegExp("^" + thename.toLowerCase(), "i") } });
    res.json({ success: 1, payload: user });
 };
 
@@ -20,7 +24,6 @@ module.exports.userSignup = async (req, res) => {
    try {
       const hashedPassword = await bcrypt.hash(password, 10); //salt = 10
       const user = new User({
-         // _id: ObjectId(email), // Mongoose autogenerates _id
          name: name,
          email: email,
          password: hashedPassword,
@@ -36,17 +39,46 @@ module.exports.userSignup = async (req, res) => {
 
 // User Login
 module.exports.userLogin = async (req, res) => {
-   const user = users.find(user => (user.username = req.body.username));
-   if (user == null) return res.status(400).send(`User not found`);
+   const { email, password } = req.body;
+   let userAuthenticated = false;
+   const user = await User.findOne({ email: email }); //{ email: req.params.email });
+   // console.log(user); //delete line
+   if (user == null) return res.status(404).send('User not found');
+   else {
+      userAuthenticated = true;
+   }
    try {
-      if (await bcrypt.compare(req.body.password, user.password)) {
-         res.send('Success');
-      } else {
-         res.send('Not allowed');
+      // User is authenticated
+      if (await bcrypt.compare(password, user.password)) {
+         const accessToken = jwt.sign(
+            { username: user.email },
+            process.env.PRIVATE_KEY
+         );
+         console.log(accessToken);
+         res.status(200).send({ token: accessToken });
       }
-   } catch (error) {
-      res.status(500).send();
+   } catch (err) {
+      res.status(500).send('bcrypt.compare() error');
    }
 };
 
-//getUser, userSignup, userLogin, deleteUserById
+module.exports.postExam = async (req, res) => {
+   const exam = req.body;
+   res.send(exam);
+};
+
+function authenticateToken(req, res, next) {
+   const authHearder = req.headers['authorization'];
+   const token = authHearder && authHearder.split(' ')[1];
+   if (token == null) {
+      return res.sendStatus(401);
+   }
+
+   jwt.verify(token, process.env.PRIVATE_KEY, (err, user) => {
+      if (err) return res.SendStatus(403);
+      req.user = user;
+      next();
+   });
+}
+
+//

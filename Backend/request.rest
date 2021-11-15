@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
    "name": "Jose Garcia",
-   "email": "jbellorin@miu.edu",
+   "email": "jbellorinni@miu.edu",
    "password": "1234",
    "position": "student"
 }
@@ -25,6 +25,6 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "username" : "Jose",
+    "email" : "jbellorin@miu.edu",
     "password" : "1234"
 }

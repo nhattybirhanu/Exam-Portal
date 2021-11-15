@@ -16,7 +16,6 @@ mongoose
       app.set('case sensitive routing', true);
       app.use(express.json());
       app.use(express.urlencoded({ extended: false }));
-      app.use(cors);
 
       // Routes
       app.use('/users', userRouters);
