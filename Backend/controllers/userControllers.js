@@ -1,5 +1,9 @@
 const bcrypt = require('bcrypt');
+<<<<<<< HEAD
 const jwt = require('jsonwebtoken');
+=======
+const Users=require('../models/Users');
+>>>>>>> f14ad90faadadcdc80995a94c46d5b6f546ca9ee
 const User = require('../models/Users');
 const Exam = require('../models/Users');
 require('dotenv').config();
@@ -39,6 +43,7 @@ module.exports.userSignup = async (req, res) => {
 
 // User Login
 module.exports.userLogin = async (req, res) => {
+<<<<<<< HEAD
    const { email, password } = req.body;
    let userAuthenticated = false;
    const user = await User.findOne({ email: email }); //{ email: req.params.email });
@@ -56,6 +61,16 @@ module.exports.userLogin = async (req, res) => {
          );
          console.log(accessToken);
          res.status(200).send({ token: accessToken });
+=======
+	const {email,password}=req.body;
+   const user = await Users.findOne({'email':email});
+   if (user == null) return res.status(400).send(`User not found`);
+   try {
+      if (await bcrypt.compare(req.body.password, user.password)) {
+         res.json({'error':null,data:user});
+      } else {
+         res.json({'error':"Wrong password",data:null});
+>>>>>>> f14ad90faadadcdc80995a94c46d5b6f546ca9ee
       }
    } catch (err) {
       res.status(500).send('bcrypt.compare() error');
