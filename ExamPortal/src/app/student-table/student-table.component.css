@@ -1,5 +1,27 @@
 /* Structure */
+.stubody{
+	width: 80%;
+	margin: auto;
+	margin-top: 2%;
+	padding: 1%;
+	text-align: center;
+}
+.approve{
+	margin: 20px;
+}
+.stusearch{
+	width: 30%;
+}
+mat-card-title{
+	margin-top: 10px;
+}
+mat-select{
+	width: 10%;
+	margin: 1%;
+
+}
 .example-container {
+	margin-top: 10px;
 	position: relative;
   }
   
@@ -29,7 +51,7 @@
   
   .example-rate-limit-reached {
 	max-width: 360px;
-	text-align: center;
+	
   }
   
   /* Column Widths */
@@ -40,5 +62,8 @@
   
   .mat-column-created {
 	max-width: 124px;
+  }
+  td{
+	  text-align: left;
   }
   

@@ -6,7 +6,14 @@ const schema = mongoose.Schema({
    username:String,
    password: String,
    role: String,
-   token:String
+   token:String,
+   subject:[{
+	title:String,
+	code:String,
+	prof_fullname:String,
+	prof_username:String,
+
+   }]
 });
 
 module.exports = mongoose.model('Users', schema);

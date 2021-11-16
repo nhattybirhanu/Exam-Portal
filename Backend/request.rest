@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/proffesior
+POST http://localhost:3000/api/professor/createexam
 Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzY5ODE5NjgsImV4cCI6MTYzNjk4MjU2OH0.CusD9u2lcg2g0ckyjomoPOJKKFZ5TwnOXYpSGprgwwg
 ###
 POST http://localhost:3000/api/users/signup

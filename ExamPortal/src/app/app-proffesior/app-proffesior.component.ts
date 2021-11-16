@@ -21,7 +21,7 @@ export class AppProffesiorComponent implements OnInit {
 
   }
   ngAfterViewInit(): void {
-	if(!this.drawer.isOpen) this.drawer.open()
+
 	  
   }
   

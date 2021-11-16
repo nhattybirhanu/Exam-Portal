@@ -3,6 +3,9 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rxjs';
+import { AuthService } from '../auth.service';
+import { Course } from '../model/Course';
+import { User } from '../model/User';
 
 @Component({
   selector: 'app-student-table',
@@ -11,105 +14,130 @@ import { catchError, map, merge, Observable, of, startWith, switchMap } from 'rx
 })
 export class StudentTableComponent implements AfterViewInit {
 
-	displayedColumns: string[] = ['select','created', 'state', 'number', 'title'];
-	exampleDatabase:  null |ExampleHttpDatabase ;
-	data: GithubIssue[] = [];
-  
-	resultsLength = 0;
-	isLoadingResults = true;
-	isRateLimitReached = false;
-  
-	@ViewChild(MatPaginator) paginator: MatPaginator|any;
-	@ViewChild(MatSort) sort: MatSort |any;
-  
-	constructor(private _httpClient: HttpClient) {
-		this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
+	displayedColumns: string[] = ['name','username', 'email', 'course' ,'status', 'actions'];
+	filter:User[]=[];
+	students:User[]=[];
+	courses:Course[]=[];
+	 filter_by_course:string|any=null;
+	 filter_by_status:boolean|any=null;
+		actions:{approve:boolean,course_id:string,user_id:string}[]=[];
 
+  
+
+	constructor(private _httpClient: HttpClient,private userService:AuthService) {
+		this.courses=userService.user.subject;
 	}
   
 	ngAfterViewInit() {
-  
-	  // If the user changes the sort order, reset back to the first page.
-	  this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-  
-	  merge(this.sort.sortChange, this.paginator.page)
-		.pipe(
-		  startWith({}),
-		  switchMap(() => {
-			this.isLoadingResults = true;
-			return this.exampleDatabase!.getRepoIssues(
-			  this.sort.active,
-			  this.sort.direction,
-			  this.paginator.pageIndex,
-			).pipe(catchError(() => of(null)));
-		  }),
-		  map(data => {
-			// Flip flag to show that loading has finished.
-			this.isLoadingResults = false;
-			this.isRateLimitReached = data === null;
-  
-			if (data === null) {
-			  return [];
+  this.loadtable();
+
+	}
+	loadtable(){
+		const prof:User=this.userService.user;
+		this.userService.getStudent().subscribe(students=>{
+			const flatusers=	students.map((item:User)=>{
+				return	item.subject.flatMap((sub:Course)=>{
+					var user:User=item;
+				//	sub.enrolled=this.studentEnrolled(sub._id);
+					user.course=sub;
+					let newUser=new User();
+					return Object.assign(newUser,user);
+				}).filter((c)=>{
+					let fcourse:Course|any=(c.course as Course)
+					console.log(fcourse)
+					return fcourse.prof_username===prof.username
+				})
+				});
+
+			this.students=flatusers.flat(1);
+			this.filter=this.students;
+			console.log(students)
+		})
+	}
+	onCourseFilter(event:any){
+		if(event.value==='-1')
+		{
+			
+			this.filter_by_course=null;
+		}
+		else this.filter_by_course=event.value;
+		this.filterTable();
+
+	}
+	onStatusFilter(event:any){
+		if(event.value==='-1') 
+		{
+			this.displayedColumns=this.displayedColumns.filter(c=>c!='select')
+		this.filter_by_status=null;
+
+		}
+		else 
+		{
+			//this.displayedColumns
+			if(!this.displayedColumns.includes('select'))
+			this.displayedColumns.unshift('select')
+			this.filter_by_status=(event.value =='true');
+
+		}
+
+		this.filterTable();
+	}
+
+	filterTable(){
+		this.filter=this.students.filter((stu)=>{
+			
+			let fflag=true;
+			let course:Course=stu.course as Course;
+			console.log(this.filter_by_course,this.filter_by_status,course)
+
+			if(this.filter_by_course==null&&this.filter_by_status==null)
+			 return true;
+			 if(this.filter_by_course!=null&&this.filter_by_status!=null){
+				 return course._id===this.filter_by_course&&(course.approved?course.approved:false)===this.filter_by_status;
+			 }
+
+			 if(this.filter_by_course!=null){
+				return course._id===this.filter_by_course;
+				}
+				if(this.filter_by_status!=null){
+
+					return (course.approved?course.approved:false)==this.filter_by_status;
+					}
+			 return fflag;
+		})
+	}
+	selectAll(event:any){
+		console.log(event)
+		this.actions=[];
+		let selected:boolean=event.checked
+		this.filter=this.students.map(user=>{
+			let course:Course=user.course as Course;
+			course.select=selected;
+			user.course=course;
+			let newUser=new User();
+			if(selected){
+				this.actions.push({approve:this.filter_by_status,course_id:course._id,user_id:user._id})
 			}
-  
-			// Only refresh the result length if there is new data. In case of rate
-			// limit errors, we do not want to reset the paginator to zero, as that
-			// would prevent users from re-triggering requests.
-			this.resultsLength = data.total_count;
-			return data.items;
-		  }),
-		)
-		.subscribe(data => (this.data = data));
+			return Object.assign(newUser,user);
+		})
+	
+		console.log(this.actions)
 	}
-	isAllSelected() {
-		//const numSelected = this.selection.selected.length;
-		//const numRows = this.dataSource.data.length;
-		//return numSelected === numRows;
-	  }
-	
-	  /** Selects all rows if they are not all selected; otherwise clear selection. */
-	  masterToggle() {
-		//if (this.isAllSelected()) {
-		//  this.selection.clear();
-		//  return;
-		//}
-	
-		//this.selection.select(...this.dataSource.data);
-	  }
-	
-	  /** The label for the checkbox on the passed row */
-	  checkboxLabel(): string {
-		  return 'all'
-		//if (!row) {
-		//  return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-		//}
-		//return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-	  }
-  }
-  
-   interface GithubApi {
-	items: GithubIssue[];
-	total_count: number;
-  }
-  
-   interface GithubIssue {
-	created_at: string;
-	number: string;
-	state: string;
-	title: string;
-  }
-  
-  /** An example database that the data source uses to retrieve data for the table. */
-  class ExampleHttpDatabase {
-	constructor(private _httpClient: HttpClient) {}
-  
-	getRepoIssues(sort: string, order: SortDirection, page: number): Observable<GithubApi> {
-	  const href = 'https://api.github.com/search/issues';
-	  const requestUrl = `${href}?q=repo:angular/components&sort=${sort}&order=${order}&page=${
-		page + 1
-	  }`;
-  
-	  return this._httpClient.get<GithubApi>(requestUrl);
+	singleSelect(event:any,user:User){
+		let selected:boolean=event.checked;
+		let course:Course=user.course as Course;
+		if(selected){
+
+			this.actions.push({approve:this.filter_by_status,course_id:course._id,user_id:user._id})
+
+		} else {
+			this.actions=this.actions.filter(ac=>ac.course_id!=course._id);
+		}
+		console.log(this.actions)
+
 	}
+	
+
   }
+  
 

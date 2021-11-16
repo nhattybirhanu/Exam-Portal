@@ -17,17 +17,29 @@ export class AuthGuard implements CanActivate{
 	// Your logic goes here
 	// return true to continue
 	// otherwise, you will have to redirect to another route
+	this.user=this.authService.user;
+
 	const path=route.routeConfig?.path;
-	console.log("route: "+path)
-	if(path==='proffesior'){
-		if(this.user!=null)
+	console.log("route: "+path,this.user)
+	if(path?.startsWith('proffesior')){
+		if(this.user!=null&&this.user.role==="professor")
 		return true;
 		else 
 		{
 		this.router.navigate(['login']);
 			return false;
 		}	
-	} else return true;
+	} else if(path?.startsWith("student")) {
+		if(this.user!=null&&this.user.role==="student")
+		return true;
+		else 
+		{
+		this.router.navigate(['login']);
+			return false;
+		}	
+	}
+	
+	else return true;
 	
 }
 	

@@ -1,11 +1,10 @@
 <mat-card class="examCard">
-	<mat-card-header>
-		<mat-card-title>Depenancy Injection</mat-card-title>
-		<mat-card-subtitle></mat-card-subtitle>
-	</mat-card-header>
 	
+	<h2>{{exam.title}}</h2>
 	<mat-card-content>
-		Explain DI by giving example with car and Engine relation using java codeText content
+		<div [innerHTML]="exam.question"></div>
+
+		
 	</mat-card-content>
 
 	

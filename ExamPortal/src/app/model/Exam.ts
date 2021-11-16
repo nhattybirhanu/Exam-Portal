@@ -1,6 +1,6 @@
 import { ExamTakers } from "./ExamTakers";
 
-export interface Quesiton{
+export interface Exam{
 	title:string;
 	question:string;
 	available:boolean;

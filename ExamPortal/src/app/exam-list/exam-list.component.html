@@ -22,24 +22,11 @@
 <div class="examList">
 
 	<mat-grid-list [cols]="mybreakpoint" (window:resize)="handleSize($event)" rowHeight="3:1">
-		<mat-grid-tile>
-			<app-exam-card></app-exam-card>
+		<mat-grid-tile *ngFor="let item of exams">
+			<app-exam-card [exam]=item></app-exam-card>
 	
 		</mat-grid-tile>
-		<mat-grid-tile>
-			<app-exam-card></app-exam-card>
-		</mat-grid-tile>
-		<mat-grid-tile><app-exam-card></app-exam-card></mat-grid-tile>
-		<mat-grid-tile><app-exam-card></app-exam-card></mat-grid-tile>
-		<mat-grid-tile>
-			<app-exam-card></app-exam-card>
-	
-		</mat-grid-tile>
-		<mat-grid-tile>
-			<app-exam-card></app-exam-card>
-		</mat-grid-tile>
-		<mat-grid-tile><app-exam-card></app-exam-card></mat-grid-tile>
-		<mat-grid-tile><app-exam-card></app-exam-card></mat-grid-tile>
+
 	  </mat-grid-list>
 	  
 </div>

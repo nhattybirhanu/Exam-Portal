@@ -43,7 +43,12 @@ export class LoginComponent implements OnInit,OnDestroy {
 			this.signing=false;
 			const user:User=response.data;
 			this.authservice.setUser(user)
+			if(user.role==='professor')
 			this.router.navigate(['proffesior']);
+			else 
+			if(user.role==='student')
+			this.router.navigate(['student']);
+
 			console.log(response)
 	},
 	error => 

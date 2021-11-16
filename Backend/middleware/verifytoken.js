@@ -5,11 +5,10 @@ const config = process.env;
 
 const verifyToken = (req, res, next) => {
   let token =
-    req.body.token || req.query.token || req.headers["authorization"];
-	console.log(token,req.headers)
-
+    req.headers["authorization"];
+console.log(token,req.headers)
   if (!token) {
-    return res.status(403).send("A token is required for authentication");
+    return res.status(401).send("A token is required for authentication");
   }
   try {
     const decoded = jwt.verify(token, config.TOKEN_KEY);

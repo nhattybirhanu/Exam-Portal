@@ -1,12 +1,14 @@
 import { Course } from "./Course";
 
-export interface User{
+export class User{
+	_id:string
 	username:string
-	name:string
+	fullname:string
 	email:string
 	role:string
 	postion:string;
-	procourse:Course[];
+	subject:Course[];
 	token:string;
-
+	course?:Course|unknown;
+	
 }

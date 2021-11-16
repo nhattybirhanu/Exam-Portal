@@ -71,7 +71,7 @@ function generateToken(username){
 const token=jwt.sign({username},
 	tokenKey,
 	{
-		expiresIn:'10m'
+		expiresIn:'5hr'
 	}
 	)
 	return token;

@@ -1,4 +1,4 @@
-	<mat-card class="questionBody">
+	<mat-card class="questionBody"  [ngClass]="{'form-disabled': creating}">
 		<mat-card-header>
 			<mat-card-title>Create new Exam</mat-card-title>
 			</mat-card-header>
@@ -10,16 +10,29 @@
 						<input class="form-control" matInput type="text" autocomplete="off"  formControlName="title">
 					</mat-form-field>
 				</p>
-			
-				<mat-form-field class="filedInput" appearance="standard">
-					<mat-label>Question</mat-label>
-					<textarea matInput placeholder="write down  question " rows="6" formControlName="question"></textarea>
+				<pre><code ></code></pre>
+<div class="NgxEditor__Wrapper">
+					<ngx-editor-menu [editor]="editor"  [toolbar]="toolbar"> </ngx-editor-menu>
+					<ngx-editor
+					  [editor]="editor"
+					  [ngModel]="html"
+					  [disabled]="false"
+					 
+					  formControlName="question"
+					  [placeholder]="'Write question...'"
+						
+					  ></ngx-editor>
+				  </div>
+				  <mat-form-field  class="filedInput" appearance="standard">
+					<mat-label>Select Subject or course</mat-label>
+					<mat-select formControlName="subject" >
+					  <mat-option *ngFor="let item of courses" [value]="item._id">{{item.title}}</mat-option>
+					  
+					</mat-select>
 				  </mat-form-field>
+			
 				  <p>
-					<mat-checkbox class="example-margin" formControlName="avaliable">Avalaible right away</mat-checkbox>
-				  </p>
-				  <p>
-					<mat-form-field appearance="standard">
+					<mat-form-field appearance="standard" class="filedInput" >
 						<mat-label>Enter a date range</mat-label>
 						<mat-date-range-input [rangePicker]="picker">
 						  <input matStartDate placeholder="Start date" formControlName="startDate">
@@ -32,7 +45,7 @@
 				  </p>
 				  <p>
 
-				  <mat-form-field class="example-margin" appearance="standard" >
+				  <mat-form-field class="filedInput" appearance="standard" >
 					<mat-label>Exam weight</mat-label>
 					<!--[formControl]="fontSizeControl" [color]="colorControl.value"-->
 					<input matInput type="number" placeholder="100"  min="1" formControlName="weight" >
@@ -40,10 +53,12 @@
 					<!--<mat-error *ngIf="fontSizeControl.invalid">Min weight: 1px</mat-error>-->
 				  </mat-form-field>
 				</p>
-				<button mat-raised-button color="primary" [disabled]="!examForm.valid">Create</button>
+			
+				<button mat-raised-button color="primary"  class="filedInput" [disabled]="!examForm.valid">Create</button>
+
 
 			</form>
-			<mat-card-footer *ngIf="creating">
+			<mat-card-footer *ngIf="creating" class="filedInput">
 				<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 			  </mat-card-footer>
 

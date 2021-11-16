@@ -18,21 +18,27 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 import {MatButtonModule} from '@angular/material/button';
 import { SignUpComponent } from './sign-up/sign-up.component'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppStudentComponent } from './app-student/app-student.component';
 import { AuthGuard } from './guards/AuthGuard';
 import { NavBar } from './Navbar.component';
 import { AppProffesiorComponent } from './app-proffesior/app-proffesior.component';
 import {MatSelectModule} from '@angular/material/select';
 import { LogoutComponent } from './logout/logout.component';
-
+import { InterceptorService } from './interceptor.service';
+import { SubjectComponent } from './subject/subject.component';
+import { MaterialModule } from './material-module';
+import { AuthService } from './auth.service';
+import { NgxEditorModule } from 'ngx-editor';
+import {CookieService} from 'ngx-cookie-service';
+import { StudentExamComponent } from './student-exam/student-exam.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignUpComponent
-		,NavBar, LogoutComponent
+		,NavBar, LogoutComponent, SubjectComponent, StudentExamComponent
 
 ],
   imports: [
@@ -41,18 +47,10 @@ import { LogoutComponent } from './logout/logout.component';
     BrowserAnimationsModule,
 	ReactiveFormsModule,
 	HttpClientModule,
-	MatToolbarModule,
-	MatIconModule,
-	MatCardModule,
-	MatFormFieldModule,
-	MatInputModule,
-	MatProgressBarModule,
-	MatProgressSpinnerModule,
-	MatButtonModule,
-	MatSelectModule
+	MaterialModule
 
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,{provide:HTTP_INTERCEPTORS,useClass:InterceptorService, multi:true},AuthService,CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

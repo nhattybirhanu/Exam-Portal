@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
 export class LogoutComponent implements OnInit {
 
   constructor(authService:AuthService) {
-	  authService.setUser(null)
+	authService.logout()
    }
 
   ngOnInit(): void {

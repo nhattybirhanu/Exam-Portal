@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ExamServiceService } from '../exam-service.service';
+import { Exam } from '../model/Exam';
 
 @Component({
   selector: 'app-exam-list',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExamListComponent implements OnInit {
 	mybreakpoint: number=0;
-  constructor() { }
+	exams:Exam[];
+  constructor(private examService:ExamServiceService) {
+
+
+   }
 
   ngOnInit(): void {
+	  this.examService.getProff().subscribe(remoteExams=>{ this.exams=remoteExams},console.log)
+
 	this.mybreakpoint = this.getSpan()
   }
   handleSize(event:any) {

@@ -26,7 +26,7 @@ import { User } from "./model/User";
 <mat-card  class="nav-profile" >
 
 
-<mat-card-title>	 {{user.name}}
+<mat-card-title>	 {{user.fullname}}
 </mat-card-title>
 <mat-card-subtitle>	 {{user.email}}
 </mat-card-subtitle>
@@ -41,7 +41,7 @@ import { User } from "./model/User";
 </ng-template>
 
 	  <button mat-flat-button color="primary" (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
-	 {{user.name}}
+	 {{user.fullname}}
 	  <mat-icon class="nav-icon" aria-hidden="false" aria-label="Example user verified icon">account_circle</mat-icon>
 
 	  </button>

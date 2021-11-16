@@ -90,4 +90,22 @@ body {
 	margin: 5px;
 	font-size: medium;
 }
-  
+.form-disabled {
+	opacity: 0.56;
+	pointer-events: none;
+  }
+  .expansion-right{
+	 width: 60%;
+	 margin: auto;
+	 margin-top: 5%;
+  }
+  .sub_remove{
+	display: inline-block;
+	text-align: right;
+  }
+  .sub_remove button {
+	  margin-bottom: 10px;
+  }
+  .sub_remove mat-list-item{
+	  width: 90%;
+  }
