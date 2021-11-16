@@ -22,13 +22,12 @@ async function getUser(req, res) {
 
 // Create new user
 async function userSignup(req, res) {
-   const { fullname, username, email, password, role } = req.body;
+   const { name, username, email, password, role } = req.body;
    console.log(req.body);
    try {
       const hashedPassword = await bcrypt.hash(password, 10); //salt = 10
       const user = new User({
-         // _id: ObjectId(email), // Mongoose autogenerates _id
-         fullname: fullname,
+         name: name,
          username: username,
          email: email,
          password: hashedPassword,
@@ -84,9 +83,12 @@ async function checkFiledAvailale(req, res) {
 }
 
 async function deleteUserById(req, res) {
-   console.log(req.body.id);
-   await Users.findByIdAndDelete({ _id: req.body.id });
+   // console.log(req.body.id);
+   // await Users.findByIdAndDelete({ _id: req.body.id });
+   await Users.remove({});
+   res.send(req.body);
 }
+
 module.exports = {
    userLogin,
    userSignup,
