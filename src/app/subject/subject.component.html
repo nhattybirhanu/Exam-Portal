@@ -1,0 +1,45 @@
+<div class="expansion-right">
+	<mat-accordion  >
+		<span class="spacer"></span>
+		<mat-expansion-panel hideToggle>
+		  <mat-expansion-panel-header>
+			<mat-panel-title>
+			  Create New Subject 
+			</mat-panel-title>
+		
+		  </mat-expansion-panel-header>
+		  <p>This is will be added to your course list</p>
+			<form [formGroup]="myform" (ngSubmit)="onSubmit()">
+				<p>
+					<mat-form-field class="filedInput" >
+	
+						<mat-label>Subject or course title</mat-label>
+						<input class="form-control" matInput type="text" autocomplete="off"  formControlName="title">
+					</mat-form-field>
+				</p>
+				
+					<mat-form-field class="filedInput" >
+	
+						<mat-label>Code</mat-label>
+						<input class="form-control" matInput type="text" autocomplete="off"  formControlName="code">
+					</mat-form-field>
+					<p>
+						<button mat-raised-button color="primary" [disabled]="!myform.valid">Add</button>
+	
+					</p>
+			</form>
+		</mat-expansion-panel>
+	
+	  </mat-accordion>
+	  
+	<mat-list  class="sub_remove" crole="list" *ngFor="let item of subject">
+		<mat-list-item role="listitem" >{{item.title}}
+		</mat-list-item>
+		<mat-divider></mat-divider>
+		
+		
+	  </mat-list>
+	  
+	
+	
+</div>
