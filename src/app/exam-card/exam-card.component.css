@@ -1,0 +1,35 @@
+.examCard{
+	text-align: left;
+	margin: 10px;
+	padding-left: 25px;
+	padding-right: 25px;
+	padding-top: 15px;
+	padding-bottom: 0px;
+	background-color: whitesmoke;
+}
+mar-card-title{
+	margin: 0dp;
+	padding: 0px;
+	text-align: left;
+}
+.footer{
+	padding: 2px;
+	display: inline-flex;
+	width: 100%;
+	
+	
+}
+.footer div{
+	text-align: right;
+
+}
+.footer h4 {
+	float: right;
+
+	margin-top: 12px;
+	text-align:right;
+	color: green;
+}
+mat-card-content {
+	max-width: 350px;
+}
