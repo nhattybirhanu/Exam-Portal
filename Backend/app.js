@@ -4,7 +4,11 @@ const userRouters = require('./routers/userRouters');
 const proffrouter=require('./routers/profrouter');
 const sturouter=require('./routers/studentrouter');
 const authMiddleWare=require('./middleware/verifytoken');
-var url="mongodb+srv://nhatty:10938562@cluster0.vmevq.mongodb.net/examportal?retryWrites=true&w=majority"
+const dotenv = require('dotenv');
+dotenv.config()
+const config = process.env;
+
+var url=config.URL
 const app = express();
 
 app.set('strict routing', true);
@@ -32,7 +36,6 @@ app.use('/',(req,res,next)=>{
 	app.use('/api/users', userRouters);
 	app.use('/api/professor',authMiddleWare,proffrouter);
 	app.use('/api/student',authMiddleWare,sturouter);
-	
 
 
 
