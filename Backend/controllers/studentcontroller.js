@@ -36,9 +36,9 @@ async function postAnswer(req,res){
 	const {startTime,endTime,answer,user_id,exam_id,fullname}=req.body;
 	const result=await Exam.updateOne({_id:exam_id,'examtakers.stuid':user_id},{$set:{
 		'examtakers.$.fullname':fullname,
-		'examtakers.$.startTime':fullname,
-		'examtakers.$.endTime':fullname,
-		'examtakers.$.answer':fullname,
+		'examtakers.$.startTime':startTime,
+		'examtakers.$.endTime':endTime,
+		'examtakers.$.answer':answer,
 		'examtakers.$.stuid':user_id,
 		
 			

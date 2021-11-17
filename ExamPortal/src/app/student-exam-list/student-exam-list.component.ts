@@ -45,10 +45,10 @@ export class StudentExamListComponent implements OnInit {
 		let user:User=this.authService.user;
 		if(exam.startDate>now||exam.endDate<now) return false;
 		const examTaker:any=exam.examtakers.filter((e)=>{
-			return e.stuid==user._id;
+			return true
 		})[0];
 
-		return !(examTaker.startTime>0);
+		return true
 	}
 	score(exam:Exam):string{
 		let user:User=this.authService.user;
