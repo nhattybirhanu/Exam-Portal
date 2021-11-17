@@ -1,0 +1,32 @@
+<!--
+	<div >
+		
+		<div class="filter">
+			<mat-select  placeholder="Filter By Course">
+				<mat-option>None</mat-option>
+		
+				  <mat-option value="mwa">MWA</mat-option>
+				  <mat-option value="ea">EA</mat-option>
+				  <mat-option value="sa">SA</mat-option>
+		
+			  </mat-select>
+			<mat-form-field  appearance="legacy">
+				<mat-label>Search student by username or full name</mat-label>
+				<input matInput >
+				<mat-icon matSuffix>search</mat-icon>
+			   
+			  </mat-form-field>
+			 
+		</div>
+	</div>-->
+<div class="examList">
+
+	<mat-grid-list [cols]="mybreakpoint" (window:resize)="handleSize($event)" rowHeight="3:1">
+		<mat-grid-tile *ngFor="let item of exams">
+			<app-exam-card [exam]=item></app-exam-card>
+	
+		</mat-grid-tile>
+
+	  </mat-grid-list>
+	  
+</div>

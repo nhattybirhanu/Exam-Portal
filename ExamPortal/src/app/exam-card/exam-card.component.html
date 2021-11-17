@@ -1,0 +1,25 @@
+<mat-card class="examCard">
+	
+	<h2>{{exam.title}}</h2>
+	<mat-card-content>
+		<div [innerHTML]="exam.question"></div>
+
+		
+	</mat-card-content>
+
+	
+		<mat-card-footer class="footer">
+			<mat-card-actions >
+				<button mat-button >Edit </button>
+				<button mat-button > Detail</button>
+				
+				
+			</mat-card-actions>
+				<span class="spacer"></span>
+				<h4>Avaliable</h4>
+
+			
+		</mat-card-footer>
+
+
+</mat-card>

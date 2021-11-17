@@ -1,0 +1,47 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+	
+	  <h1>Examable</h1>
+	  <span class="menu-spacer"></span>
+	  <div>
+		<a mat-button [routerLink]="'courses'"> My Course </a>
+		<a mat-button [routerLink]="'exams'">Exams</a>
+	
+	
+	  </div>
+	  <span class="spacer"></span>
+	  <button mat-flat-button color="primary" (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+	
+		 <mat-icon class="nav-icon" aria-hidden="false" aria-label="Example user verified icon">account_circle</mat-icon>
+   
+		 </button>
+	  <ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen"
+>
+<mat-card  class="nav-profile" >
+
+
+<mat-card-title>	{{user.fullname}} 
+</mat-card-title>
+<mat-card-subtitle>	{{user.email}}
+</mat-card-subtitle>
+<mat-card-actions >
+	<a mat-stroked-button [routerLink]="['/logout']" >Logout</a>
+	
+</mat-card-actions>
+
+</mat-card>
+
+
+</ng-template>
+
+
+	</mat-toolbar-row>
+
+  </mat-toolbar>
+  <div class="stubody">
+	<router-outlet></router-outlet>
+
+  </div>
