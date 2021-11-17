@@ -13,7 +13,7 @@ const routes: Routes = [
 	{path :'logout',component:LogoutComponent},
 
 	{path:'student',loadChildren :()=>import('./student/student.module').then(m=>m.StudentModule),canActivate:[AuthGuard]},
-	{path:'proffesior',loadChildren :()=>import('./proffesior/proffesior.module').then(m=>m.ProffesiorModule),canActivate:[AuthGuard]}
+	{path:'professor',loadChildren :()=>import('./proffesior/proffesior.module').then(m=>m.ProffesiorModule),canActivate:[AuthGuard]}
 
 ];
 

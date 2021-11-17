@@ -19,6 +19,8 @@ import { SubjectComponent } from '../subject/subject.component';
 import { NgxEditorModule,schema } from 'ngx-editor';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import {CookieService} from 'ngx-cookie-service'
+import { ExamDetailComponent } from '../exam-detail/exam-detail.component';
+import { ExamGradingComponent } from '../exam-grading/exam-grading.component';
 
 
 @NgModule({
@@ -29,7 +31,7 @@ import {CookieService} from 'ngx-cookie-service'
 	ProffesiorExamCreatorComponent,
 	ProfStudentComponent,
 	StudentTableComponent,
-	ExamListComponent,ExamCardComponent
+	ExamListComponent,ExamCardComponent,ExamDetailComponent,ExamGradingComponent
 
   ],
   imports: [
@@ -39,11 +41,13 @@ import {CookieService} from 'ngx-cookie-service'
 		{path:'',component:AppProffesiorComponent,
 		
 		children:[
-			{path:'proffesior/home',component:ProffesiorHomeComponent},
-			{path:'proffesior/newexam',component:ProffesiorExamCreatorComponent },
-			{path:'proffesior/students',component:ProfStudentComponent },
-			{path:'proffesior/examlists',component:ExamListComponent },
-			{path :'proffesior/subject',component:SubjectComponent},
+		
+			{path:'newexam',component:ProffesiorExamCreatorComponent },
+			{path:'students',component:ProfStudentComponent },
+			{path:'examlists',component:ExamListComponent },
+			{path :'subject',component:SubjectComponent},
+			{path:'examlists/detail',component:ExamDetailComponent},
+			{path:'examlists/detail/grade',component:ExamGradingComponent}
 
 		]}
 

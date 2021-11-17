@@ -10,6 +10,7 @@ import { User } from './model/User';
 })
 export class ExamServiceService {
 	currentExam:Exam;
+	myExamList:Exam[]=[];
 
 
   constructor(private http:HttpClient,private authService:AuthService) { }
@@ -36,8 +37,14 @@ export class ExamServiceService {
 		.user._id)
 
 	}
+	setExams(exams:Exam[]){
+		this.myExamList=exams;
+	}
 	postAnswer(answer:any):Observable<any>{
 		return this.http.put("http://localhost:3000/api/student/postanswer/",answer);
+	}
+	postGrade(grade:any):Observable<any>{
+	return	this.http.put<any>('http://localhost:3000/api/professor/grade',grade);
 	}
 
 }

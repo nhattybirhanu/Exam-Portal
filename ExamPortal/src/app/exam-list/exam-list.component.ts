@@ -8,6 +8,7 @@ import { Exam } from '../model/Exam';
   styleUrls: ['./exam-list.component.css']
 })
 export class ExamListComponent implements OnInit {
+	displayedColumns:string[]=['index','title','course','action']
 	mybreakpoint: number=0;
 	exams:Exam[];
   constructor(private examService:ExamServiceService) {
@@ -16,7 +17,9 @@ export class ExamListComponent implements OnInit {
    }
 
   ngOnInit(): void {
-	  this.examService.getProff().subscribe(remoteExams=>{ this.exams=remoteExams},console.log)
+	  this.examService.getProff().subscribe(remoteExams=>{ this.exams=remoteExams
+		
+			this.examService.setExams(remoteExams)}		,console.log)
 
 	this.mybreakpoint = this.getSpan()
   }
@@ -28,5 +31,11 @@ export class ExamListComponent implements OnInit {
 		let size=window.innerWidth-300;
 
 		return size/500
+	}
+	
+	getTime(time:number)
+	{
+		var date = new Date(time);
+		return date.toLocaleString();
 	}
 }

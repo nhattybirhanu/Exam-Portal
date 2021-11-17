@@ -3,25 +3,22 @@
 	<app-nav2 (shomMenuEvent)="onShowMenu($event)"></app-nav2>
 	<mat-drawer-container class="container" autosize>
 		<mat-drawer #drawer class="sidenav" mode="side"  open>
-			<a mat-button [routerLink]="['proffesior/home']"    class="menu-button">
-				<mat-icon>home</mat-icon>
-				<span>Home</span>
-			</a>
+		
 			
-			<a mat-button [routerLink]="['proffesior/newexam']" class="menu-button">
+			<a mat-button [routerLink]="['newexam']" class="menu-button">
 				<mat-icon>add</mat-icon>
 				<span>Create new exam</span>
 			</a>
-			<a mat-button class="menu-button"  [routerLink]="['proffesior/examlists']">
+			<a mat-button class="menu-button"  [routerLink]="['examlists']">
 				<mat-icon>list</mat-icon>
 				<span>Exams List</span>
 			</a>
-			<a mat-button class="menu-button" [routerLink]="['proffesior/subject']">
+			<a mat-button class="menu-button" [routerLink]="['subject']">
 				<mat-icon>subject</mat-icon>
 				<span>Subject</span>
 			</a>
 
-			<a mat-button class="menu-button" [routerLink]="['proffesior/students']">
+			<a mat-button class="menu-button" [routerLink]="['students']">
 				<mat-icon>group</mat-icon>
 				<span>Students</span>
 			</a>

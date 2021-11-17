@@ -1,5 +1,5 @@
 const express = require('express');
-const {getProf,createExam,addCourse,getProfExam,getStudent,approveStudent} = require('../controllers/proffesiorcontroller');
+const {getProf,createExam,addCourse,getProfExam,getStudent,approveStudent,grade} = require('../controllers/proffesiorcontroller');
 const router = express.Router();
  router.get('/',getProf);
  router.get('/exams/:username',getProfExam);
@@ -8,6 +8,7 @@ const router = express.Router();
  router.post('/addcourse',addCourse);
  router.get('/students',getStudent)
  router.put('/approve',approveStudent);
+ router.put('/grade',grade);
  
 
  module.exports=router;

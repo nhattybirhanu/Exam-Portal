@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 			const user:User=response.data;
 			this.authservice.setUser(user)
 			if(user.role==='professor')
-			this.router.navigate(['proffesior']);
+			this.router.navigate(['professor/examlists']);
 			else 
 			if(user.role==='student')
 			this.router.navigate(['student/courses']);

@@ -34,6 +34,8 @@ import {CookieService} from 'ngx-cookie-service';
 import { StudentExamComponent } from './student-exam/student-exam.component';
 import { StudentExamListComponent } from './student-exam-list/student-exam-list.component';
 import { ExamRoomComponent } from './exam-room/exam-room.component';
+import { ExamDetailComponent } from './exam-detail/exam-detail.component';
+import { ExamGradingComponent } from './exam-grading/exam-grading.component';
 
 @NgModule({
   declarations: [

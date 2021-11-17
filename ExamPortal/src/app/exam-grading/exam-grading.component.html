@@ -1,0 +1,38 @@
+<mat-card class="examroom">
+	<mat-card-header>
+		<mat-card-title>{{examTaker.fullname}}</mat-card-title>
+
+		<mat-card-subtitle></mat-card-subtitle>
+
+	</mat-card-header>
+
+	<div>
+		<h2>Answer</h2>
+	
+		<div class="examQue" [innerHTML]="examTaker.answer"></div>
+
+			
+		</div>
+		<mat-divider>
+		</mat-divider>
+		<form  [formGroup]="gradeForm" (ngSubmit)="onSubmit()">
+			<mat-form-field class="filedInput" appearance="standard" >
+				<mat-label>Exam weight</mat-label>
+				<!--[formControl]="fontSizeControl" [color]="colorControl.value"-->
+				<input matInput type="number" placeholder="100" max="exam.weight" min="1" formControlName="score" >
+				<span matSuffix>point</span>
+				<!--<mat-error *ngIf="fontSizeControl.invalid">Min weight: 1px</mat-error>-->
+			  </mat-form-field>
+			  <p>
+				<mat-form-field class="filedInput" >
+	
+					<mat-label>Comment</mat-label>
+					<textarea class="form-control" matInput type="text" autocomplete="off" placeholder="comment" formControlName="comment"></textarea>
+				</mat-form-field>
+			  </p>
+			 	<div class="sub">
+					<button mat-raised-button [disabled]="!gradeForm.valid" color="primary">Sumbit Grade</button>
+				 </div> 
+		</form>
+
+</mat-card>

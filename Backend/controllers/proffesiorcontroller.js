@@ -20,8 +20,8 @@ async function getProf(req, res){
 	 const exam =new Exam({
 		title:title,
 		question:question, 
-		startTime:startDate, 
-		endTime:endDate, 
+		startDate:startDate, 
+		endDate:endDate, 
 		weight:weight,
 		prof_username:prof_username,
 		prof_fullname:prof_fullname,
@@ -41,7 +41,7 @@ await exam.save();
  }
 async function getProfExam(req,res){
 	const {username}=req.params;
-	var exams=await Exam.find({'prof_username':username}).select('-examtakers');
+	var exams=await Exam.find({'prof_username':username});
 	res.json(exams);
 
 }
@@ -70,6 +70,19 @@ async function approveStudent(req,res){
 	});
 	res.sendStatus(200);
 }
+async function grade(req,res){
+	const {exam_id,stuid,score,comment}=req.body;
+	console.log(req.body)
+	const result=await Exam.updateOne({_id:exam_id,'examtakers.stuid':stuid},{$set:{
+		'examtakers.$':{
+			comment,
+			graded:true,
+			stuid,
+			score
+		}
+	}})
+	res.json(result);
+}
 
 
- module.exports={getProf,createExam,addCourse,getProfExam,getStudent,approveStudent}
+ module.exports={getProf,createExam,addCourse,getProfExam,getStudent,approveStudent,grade}

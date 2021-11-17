@@ -21,7 +21,8 @@ const schema = mongoose.Schema({
 		endTime:Number,
 		graded:Boolean,
 		score:Number,
-		answer:String
+		answer:String,
+		comment:String,
 	}]
 });
 

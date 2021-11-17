@@ -31,7 +31,7 @@ export class ExamRoomComponent implements OnInit ,OnDestroy{
 	  ];
   constructor(private examService:ExamServiceService,private formBuilder:FormBuilder,private router:Router,private authservice:AuthService) {
 	this.roomform=formBuilder.group({
-		'answer':['',Val.required()],
+		'answer':['',[Val.required()]],
 
 	})
 
@@ -60,6 +60,7 @@ export class ExamRoomComponent implements OnInit ,OnDestroy{
 	answer.endTime=this.end_time;
 	answer.exam_id=this.exam._id;
 	answer.user_id=this.authservice.user._id;
+	answer.fullname=this.authservice.user.fullname
 	console.log(answer)
 	this.examService.postAnswer(answer).subscribe(res=>
 		{this.creating=false;
