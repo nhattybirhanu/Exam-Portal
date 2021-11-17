@@ -35,14 +35,17 @@ async function getExams(req,res){
 async function postAnswer(req,res){
 	const {startTime,endTime,answer,user_id,exam_id,fullname}=req.body;
 	const result=await Exam.updateOne({_id:exam_id,'examtakers.stuid':user_id},{$set:{
-		'examtakers.$':{
-			fullname,
-			startTime,
-			endTime,
-			answer,
-			stuid:user_id
+		'examtakers.$.fullname':fullname,
+		'examtakers.$.startTime':fullname,
+		'examtakers.$.endTime':fullname,
+		'examtakers.$.answer':fullname,
+		'examtakers.$.stuid':user_id,
+		
+			
 		}
-	}})
+	}
+	)
+
 	res.json(result)
 }
 

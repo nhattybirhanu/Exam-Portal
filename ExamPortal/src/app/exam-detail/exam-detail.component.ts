@@ -12,7 +12,7 @@ import { ExamTakers } from '../model/ExamTakers';
 export class ExamDetailComponent implements OnInit {
 	exam:Exam;
 	examtakers:ExamTakers[]=[];
-	displayedColumns:string[]=['index','title','start_time','end_time','action']
+	displayedColumns:string[]=['index','title','start_time','end_time','status','action']
 
   constructor(private examService:ExamServiceService,activedRoute:ActivatedRoute) {
 	activedRoute.queryParams.subscribe(e=>{

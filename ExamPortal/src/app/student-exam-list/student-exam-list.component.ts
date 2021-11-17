@@ -50,4 +50,13 @@ export class StudentExamListComponent implements OnInit {
 
 		return !(examTaker.startTime>0);
 	}
+	score(exam:Exam):string{
+		let user:User=this.authService.user;
+		
+		const examTaker:any=exam.examtakers.filter((e)=>{
+			return e.stuid==user._id;
+		})[0];
+
+		return (examTaker.score);
+	}
 }

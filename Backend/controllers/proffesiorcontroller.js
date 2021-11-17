@@ -73,14 +73,16 @@ async function approveStudent(req,res){
 async function grade(req,res){
 	const {exam_id,stuid,score,comment}=req.body;
 	console.log(req.body)
-	const result=await Exam.updateOne({_id:exam_id,'examtakers.stuid':stuid},{$set:{
-		'examtakers.$':{
-			comment,
-			graded:true,
-			stuid,
-			score
-		}
-	}})
+	const result=await Exam.updateOne({_id:exam_id,'examtakers.stuid':stuid},{
+		$set:{
+		'examtakers.$.comment':comment,
+		'examtakers.$.score':score,
+		'examtakers.$.graded':true,
+		
+					
+	
+				}}
+				)
 	res.json(result);
 }
 
