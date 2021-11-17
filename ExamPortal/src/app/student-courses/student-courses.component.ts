@@ -27,17 +27,27 @@ export class StudentCoursesComponent implements OnInit {
 		return	item.subject.flatMap((sub:Course)=>{
 			var user:User=item;
 			sub.enrolled=this.studentEnrolled(sub._id);
+			sub.approved=this.studentApproved(sub._id);
+
 			user.course=sub;
+			
 			let newUser=new User();
 			return Object.assign(newUser,user);
 		})
 		});
 		this.dataSource=flatCourse.flat(1);
+
 	})
   }
    studentEnrolled(id:string):boolean{
 
 	return this.enroled.some((ele)=>ele._id===id);
+   }
+   studentApproved(id:string):boolean{
+
+	return this.enroled.some((ele)=>{
+		return ele._id===id&&ele.approved;
+	});
    }
   enrole(courseByProf:User){
 	  this.updating=true;
@@ -45,7 +55,6 @@ export class StudentCoursesComponent implements OnInit {
 	  let updateingCourse:Course=(courseByProf.course as Course)
 		updateingCourse.proffesiorName=courseByProf.fullname;
 		updateingCourse.proffesiorUserName=courseByProf.username;
-		console.log(updateingCourse);
 
 	  this.authServie.updateCourse(updateingCourse,!add).subscribe(res=>{
 		  if(res){

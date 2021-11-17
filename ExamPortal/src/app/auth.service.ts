@@ -61,6 +61,10 @@ export class AuthService implements OnInit {
 		return this.http.get<User[]>('http://localhost:3000/api/professor/students',{params});
 
 	}
+	updateApprovalForUser(actions:any):Observable<any>{
+		
+		return this.http.put<any>('http://localhost:3000/api/professor/approve',{actions});	
+	}
 
 	ngOnInit(): void {
 	

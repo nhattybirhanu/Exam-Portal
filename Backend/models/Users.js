@@ -12,6 +12,7 @@ const schema = mongoose.Schema({
 	code:String,
 	prof_fullname:String,
 	prof_username:String,
+	approved:Boolean,
 
    }]
 });

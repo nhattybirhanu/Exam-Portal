@@ -14,16 +14,16 @@ import { User } from '../model/User';
 })
 export class StudentTableComponent implements AfterViewInit {
 
-	displayedColumns: string[] = ['name','username', 'email', 'course' ,'status', 'actions'];
+	displayedColumns: string[] = ['name', 'email', 'course' ,'status'];
 	filter:User[]=[];
 	students:User[]=[];
 	courses:Course[]=[];
 	 filter_by_course:string|any=null;
 	 filter_by_status:boolean|any=null;
 		actions:{approve:boolean,course_id:string,user_id:string}[]=[];
-
+		btntext:string="Approve students"
   
-
+		updating:boolean=false;
 	constructor(private _httpClient: HttpClient,private userService:AuthService) {
 		this.courses=userService.user.subject;
 	}
@@ -44,7 +44,7 @@ export class StudentTableComponent implements AfterViewInit {
 					return Object.assign(newUser,user);
 				}).filter((c)=>{
 					let fcourse:Course|any=(c.course as Course)
-					console.log(fcourse)
+					console.log(fcourse.approved)
 					return fcourse.prof_username===prof.username
 				})
 				});
@@ -77,6 +77,7 @@ export class StudentTableComponent implements AfterViewInit {
 			if(!this.displayedColumns.includes('select'))
 			this.displayedColumns.unshift('select')
 			this.filter_by_status=(event.value =='true');
+			this.btntext=!this.filter_by_status?"Approve students":"Change to pending students"
 
 		}
 
@@ -88,7 +89,6 @@ export class StudentTableComponent implements AfterViewInit {
 			
 			let fflag=true;
 			let course:Course=stu.course as Course;
-			console.log(this.filter_by_course,this.filter_by_status,course)
 
 			if(this.filter_by_course==null&&this.filter_by_status==null)
 			 return true;
@@ -105,18 +105,18 @@ export class StudentTableComponent implements AfterViewInit {
 					}
 			 return fflag;
 		})
+		this.actions=[];
 	}
 	selectAll(event:any){
-		console.log(event)
 		this.actions=[];
 		let selected:boolean=event.checked
-		this.filter=this.students.map(user=>{
+		this.filter=this.filter.map(user=>{
 			let course:Course=user.course as Course;
 			course.select=selected;
 			user.course=course;
 			let newUser=new User();
 			if(selected){
-				this.actions.push({approve:this.filter_by_status,course_id:course._id,user_id:user._id})
+				this.actions.push({approve:!this.filter_by_status,course_id:course._id,user_id:user._id})
 			}
 			return Object.assign(newUser,user);
 		})
@@ -128,13 +128,27 @@ export class StudentTableComponent implements AfterViewInit {
 		let course:Course=user.course as Course;
 		if(selected){
 
-			this.actions.push({approve:this.filter_by_status,course_id:course._id,user_id:user._id})
+			this.actions.push({approve:!this.filter_by_status,course_id:course._id,user_id:user._id})
 
 		} else {
 			this.actions=this.actions.filter(ac=>ac.course_id!=course._id);
 		}
-		console.log(this.actions)
+		//console.log(this.actions)
 
+	}
+	updateAll(){
+		this.updating=true;
+		console.log(this.actions)
+		this.userService.updateApprovalForUser(this.actions).subscribe(res=>{
+			setTimeout(()=>this.updateLocaly(),3000);
+		},()=>{
+
+			setTimeout(()=>this.updateLocaly(),3000);
+		});
+	}
+	updateLocaly(){
+		this.updating=false;
+		this.loadtable();
 	}
 	
 

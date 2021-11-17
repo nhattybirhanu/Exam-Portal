@@ -61,6 +61,7 @@ export class ProffesiorExamCreatorComponent implements OnInit ,OnDestroy{
 		body.startDate=this.toTimestamp(body.startDate)
 		body.endDate=this.toTimestamp(body.endDate)
 		body.subject=course;
+		console.log(body.subject)
 		this.examService.creatExam(this.examForm.value).subscribe(responce=>{
 		 this.creating=false;
 		 this.router.navigate(['proffesior/proffesior/examlists']);
@@ -69,7 +70,7 @@ export class ProffesiorExamCreatorComponent implements OnInit ,OnDestroy{
 		 this.creating=false;
 		 
 	 }
-	 )
+ )
 	})
 	
    }

@@ -26,5 +26,23 @@ async function removeCourse(req,res){
 	res.status(success?200:201).send(success)
 
 }
+async function getExams(req,res){
+	const {id}=req.params;
+	console.log(id);
+	const exams=await Exam.find({'examtakers.stuid':id});
+	res.json(exams);
+}
+async function postAnswer(req,res){
+	const {startTime,endTime,answer,user_id,exam_id}=req.body;
+	const result=await Exam.updateOne({_id:exam_id,'examtakers.stuid':user_id},{$set:{
+		'examtakers.$':{
+			startTime,
+			endTime,
+			answer,
+			stuid:user_id
+		}
+	}})
+	res.json(result)
+}
 
-module.exports={courselist,addCourse,removeCourse}
+module.exports={courselist,addCourse,removeCourse,getExams,postAnswer}

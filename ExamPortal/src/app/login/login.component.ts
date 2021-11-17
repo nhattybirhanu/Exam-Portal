@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 			this.router.navigate(['proffesior']);
 			else 
 			if(user.role==='student')
-			this.router.navigate(['student']);
+			this.router.navigate(['student/courses']);
 
 			console.log(response)
 	},

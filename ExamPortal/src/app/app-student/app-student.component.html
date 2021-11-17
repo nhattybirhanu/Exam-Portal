@@ -5,7 +5,7 @@
 	  <span class="menu-spacer"></span>
 	  <div>
 		<a mat-button [routerLink]="'courses'"> My Course </a>
-		<a mat-button [routerLink]="'/exams'">Exams</a>
+		<a mat-button [routerLink]="'exams'">Exams</a>
 	
 	
 	  </div>
@@ -23,9 +23,9 @@
 <mat-card  class="nav-profile" >
 
 
-<mat-card-title>	 
+<mat-card-title>	{{user.fullname}} 
 </mat-card-title>
-<mat-card-subtitle>	
+<mat-card-subtitle>	{{user.email}}
 </mat-card-subtitle>
 <mat-card-actions >
 	<a mat-stroked-button [routerLink]="['/logout']" >Logout</a>
@@ -36,7 +36,12 @@
 
 
 </ng-template>
+
+
 	</mat-toolbar-row>
 
   </mat-toolbar>
-<router-outlet></router-outlet>
+  <div class="stubody">
+	<router-outlet></router-outlet>
+
+  </div>

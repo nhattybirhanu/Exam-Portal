@@ -6,7 +6,16 @@ async function getProf(req, res){
 	res.json({ success: 1, payload: users });
  };
  async function createExam(req,res){
+	 
 	 const {title,question,startDate,endDate,weight,prof_username,prof_fullname,subject}=req.body;
+	 const students=await User.find({$and:[{role:'student'},{'subject._id':subject._id},{'subject.approved':true}]});
+	console.log(students,subject._id)
+	 const  examtakers=[];
+	 students.forEach((user) => {
+		const data={fullname:user.fullname,stuid:user.id,graded:false};
+		examtakers.push(data);
+
+	});
 	 console.log('body',req.body);
 	 const exam =new Exam({
 		title:title,
@@ -16,11 +25,19 @@ async function getProf(req, res){
 		weight:weight,
 		prof_username:prof_username,
 		prof_fullname:prof_fullname,
-		subject:subject
+		subject:subject,
+		examtakers:examtakers
 
 	 });
- await exam.save();
+await exam.save();
 	 res.json(exam)
+	
+ }
+ async function pushExamiers(subject_id,id){
+
+	console.log(subjectstudents)
+	
+
  }
 async function getProfExam(req,res){
 	const {username}=req.params;
@@ -42,6 +59,17 @@ async function getStudent(req,res){
 	const students=await User.find({role:'student','subject.prof_username':prof_username})
 	res.json(students);
 }
+async function approveStudent(req,res){
+	const { actions }=req.body;
+	
+	actions.forEach ( async (element) => {
+	
+	const result=await	User.updateOne({_id:element.user_id,'subject.id':element.course_id},{'$set':{'subject.$.approved':element.approve}});
+	
+
+	});
+	res.sendStatus(200);
+}
 
 
- module.exports={getProf,createExam,addCourse,getProfExam,getStudent}
+ module.exports={getProf,createExam,addCourse,getProfExam,getStudent,approveStudent}

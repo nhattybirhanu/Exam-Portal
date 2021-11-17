@@ -1,5 +1,6 @@
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 import { User } from '../model/User';
 
 @Component({
@@ -12,7 +13,9 @@ export class AppStudentComponent implements OnInit {
 	user:User;
 	trigger=CdkOverlayOrigin
 
-  constructor() { }
+  constructor(userService:AuthService) {
+	  this.user=userService.user;
+   }
 
   ngOnInit(): void {
   }

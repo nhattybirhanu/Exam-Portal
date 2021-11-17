@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
+	
 	title:String,
 	question:String,
 	available:Boolean,
@@ -14,7 +15,7 @@ const schema = mongoose.Schema({
 		'code':String
 	},
 	examtakers:[{
-		username:String,
+		stuid:String,
 		fullname:String,
 		startTime:Number,
 		endTime:Number,

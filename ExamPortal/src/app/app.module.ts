@@ -32,6 +32,8 @@ import { AuthService } from './auth.service';
 import { NgxEditorModule } from 'ngx-editor';
 import {CookieService} from 'ngx-cookie-service';
 import { StudentExamComponent } from './student-exam/student-exam.component';
+import { StudentExamListComponent } from './student-exam-list/student-exam-list.component';
+import { ExamRoomComponent } from './exam-room/exam-room.component';
 
 @NgModule({
   declarations: [

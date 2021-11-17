@@ -1,0 +1,40 @@
+<mat-card class="examroom">
+	<mat-card-header>
+		<mat-card-title>{{exam.title}}</mat-card-title>
+		<mat-card-title>Exam by {{exam.prof_fullname}}</mat-card-title>
+
+		<mat-card-subtitle>Course information : {{exam.subject.title}} {{exam.subject.code}}</mat-card-subtitle>
+
+	</mat-card-header>
+
+	<div>
+		<h2>Question</h2>
+		<mat-divider>
+		</mat-divider>
+		<div class="examQue" [innerHTML]="exam.question"></div>
+
+			
+		</div>
+		<mat-divider>
+		</mat-divider>
+		<form  [formGroup]="roomform" (ngSubmit)="onSubmit()">
+			<div class="NgxEditor__Wrapper">
+				<ngx-editor-menu [editor]="editor"  [toolbar]="toolbar"> </ngx-editor-menu>
+				<ngx-editor
+				  [editor]="editor"
+				  
+				  [disabled]="false"
+				 
+				  formControlName="answer"
+				  [placeholder]="'Write your answer...'"
+					
+				  >
+				</ngx-editor>
+
+			  </div>
+			 	<div class="sub">
+					<button mat-raised-button [disabled]="!roomform.valid" color="primary">Sumbit</button>
+				 </div> 
+		</form>
+
+</mat-card>

@@ -1,4 +1,5 @@
 export interface ExamTakers{
+	stuid:string;
 	username:string;
 	fullname:string;
 	startTime:number;
